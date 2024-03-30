@@ -3,11 +3,10 @@
 static int password = 123;
 
 void administrator(){
-    int admin_option, trail;
+    int admin_option, trail=0;
     int check;
 
     enter_password:
-    trail = 0;
     printf("\n\n=====================================================================\n");
     printf("                       Enter your password: ");
     scanf("%d", &check);
@@ -79,6 +78,7 @@ else{
     printf("=====================================================================\n\n");
     trail++;
     if (trail<2) goto enter_password;
+    else trail=0;
 }
 
     //Use Files to Add view and delete products
