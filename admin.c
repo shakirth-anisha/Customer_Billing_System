@@ -2,10 +2,13 @@
 
 static int password = 123;
 
-void administrator(){
-    int admin_option, trail=0;
-    int check;
+void add_item(item_t **users, int prod_num, char *name, int price, int quant);
+void list_existing_items(item_t *a);
 
+void administrator(){
+    int admin_option, trail=0, check, price, quant, query, num;
+    char name[100];
+    
     enter_password:
     printf("\n\n=====================================================================\n");
     printf("                       Enter your password: ");
@@ -34,14 +37,29 @@ if (password==check){
             printf("\n\n=====================================================================\n");
             printf("                        Available Items\n");
             printf("=====================================================================\n\n");
-            //Set up a back option and return to main menu option
+            list_existing_items(item_database);
+            //S̶e̶t̶ u̶p̶ a̶ b̶a̶c̶k̶ o̶p̶t̶i̶o̶n̶ a̶n̶d̶ r̶e̶t̶u̶r̶n̶ t̶o̶ m̶a̶i̶n̶ m̶e̶n̶u̶ o̶p̶t̶i̶o̶n̶
             goto admin_menu;
             break;
         
         case 2:
-            //Ask info on how many quires are required and product details. 
-            //Also set up a force quit on an accidental value
-            //Set up an Invalid Response 
+            printf("\n\n=====================================================================\n");
+            printf("                              Add Items\n");
+            printf("=====================================================================\n\n");
+            // printf("         Enter the number of quires: ");
+            // scanf("%d", &query);
+            // while (query>0)
+            // {            
+            // printf("Enter Item Number, Item Name, Price and Quantity: ");
+            // scanf("%d %s %d %d", &num, name, &price, &quant);
+            // add_item(&item_database, num, name, price, quant);
+            // query--;
+            // }
+
+            add_item(&item_database, 12, "lol", 24, 23);
+            add_item(&item_database, 11, "efw", 2445, 32);
+            add_item(&item_database, 1, "sr", 34, 7);
+            add_item(&item_database, 67, "pop", 56, 3);
             goto admin_menu;
             break;
         
@@ -64,9 +82,7 @@ if (password==check){
             break;
 
         default:
-            printf("\n\n=====================================================================\n");
-            printf("                     Invalid Option. Try Again?\n");
-            printf("=====================================================================\n\n");
+            invalid();
             goto admin_menu;
             break;
         }
@@ -82,4 +98,31 @@ else{
 }
 
     //Use Files to Add view and delete products
+}
+
+void add_item(item_t **users, int prod_num, char *name, int price, int quant){
+    item_t *new_node = (item_t*) malloc(sizeof(item_t));
+    item_t *last = *users;
+    new_node->item_no = prod_num; strcpy(new_node->item_name, name); new_node->price = price; new_node->quantity = quant;
+    //Checking if its first element
+    if (*users == NULL){
+        new_node->next = NULL;
+        *users = new_node;
+    }
+    //Adding elements (LINKED LIST)
+    else {
+        new_node->next = *users;
+        (*users) = new_node;
+    }
+}
+
+void list_existing_items(item_t *a){
+    printf("|Item Number|\t\t|Item Name|\t\t|Price|\t\t|Quantity|\n\n");
+    //|Product Number\t|Product Name\t|Quantity\t|Price\t\n
+    while (a!=NULL)
+    {
+        printf("%12d|\t\t%12s|\t\t%8d|\t\t%d|\n", a->item_no, a->item_name, a->price, a->quantity);
+        a = a->next;
+    }
+    // printf("%d %s %d\n", a->roll, a->name, a->sem);
 }
