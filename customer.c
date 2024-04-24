@@ -3,9 +3,11 @@
 
 void profile(struct user_details *user, int option);
 struct item_details * find_add_item(item_t *users, int to_find, int quan);
+int total_cost (item_t * cart);
 
 void customer(struct user_details user){
-    int customer_options, profile_options, query_c, item_no, item_quan;
+    int customer_options, profile_options, query_c, item_no, item_quan, cart_choice;
+    item_t *temp;
     customer_menu:
     printf("\n\n=====================================================================\n");
     printf("                           Customer Settings\n");
@@ -55,10 +57,63 @@ void customer(struct user_details user){
         break;
     
     case 3:
+        your_cart:
         printf("\n\n=====================================================================\n");
         printf("                             Your cart\n");
         printf("=====================================================================\n\n");
         list_existing_items(cart_items);
+        printf("=====================================================================\n");
+        printf("                  |         1.)  Checkout         |\n");
+        printf("                  |         2.)  Back             |\n");
+        printf("=====================================================================\n\n");
+        printf("                       Enter your choice: ");
+        switch (scanf("%d", &cart_choice))
+        {
+        case 1:
+            printf("\n\n=====================================================================\n");
+            printf("                        Your Total is: %d\n", total_cost(cart_items));
+            printf("=====================================================================\n\n");
+            printf("=====================================================================\n");
+            printf("                  |         1.)  Proceed          |\n");
+            printf("                  |         2.)  Back             |\n");
+            printf("=====================================================================\n\n");
+            printf("                       Enter your choice: ");
+            switch (scanf("%d", &cart_choice))
+            {
+                case 1:
+                    printf("\n\n=====================================================================\n\n");
+                    printf("                    Your Transaction is Complete.\n\n");
+                    printf("=====================================================================\n\n");
+                    while (cart_items!=NULL)
+                    {
+                        temp = cart_items;
+                        cart_items = cart_items->next;
+                        free(temp);
+                    }
+                    quit();
+                    goto main_menu;
+                    break;
+
+                case 2:
+                    goto your_cart;
+                    break;
+
+                default:
+                    invalid();
+                    goto your_cart;
+            }
+
+            break;
+        
+        case 2:
+            goto customer_menu;
+            break;
+
+        default:
+            invalid();
+            goto your_cart;
+            break;
+        }
         //Set up a back option and return to main menu option
         //Set up a total value and ask to proceed to checkout
         //If they checkout, display "Purchase Successfull" and ask if they want to quit or go to main menu
@@ -127,11 +182,21 @@ struct item_details * find_add_item(item_t *users, int to_find, int quan) {
     while (users!=NULL)
     {
         if (users->item_no == to_find){
-        // printf("%12d|\t\t%12s|\t\t%8d|\t\t%d|\n", users->item_no, users->item_name, users->price, users->quantity);
-        add_item(&cart_items, users->item_no, users->item_name, users->price, quan);
+            // printf("%12d|\t\t%12s|\t\t%8d|\t\t%d|\n", users->item_no, users->item_name, users->price, users->quantity);
+            add_item(&cart_items, users->item_no, users->item_name, users->price, quan);
             return users;
         }
         users = users->next;
     }
     return &error_items;
+}
+
+int total_cost (item_t * cart){
+    int sum=0;
+    while (cart!=NULL)
+    {
+        sum+=(cart->price*cart->quantity);
+        cart = cart->next;
+    }
+    return sum;
 }

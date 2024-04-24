@@ -33,10 +33,10 @@ typedef struct item_details item_t;
 user_t error_details = {-1,"-1","-1"};
 item_t error_items = {-1,"-1",-1,-1};
 
+#include "exit.c"
 #include "invalid_func.c"
 #include "admin.c"
 #include "customer.c"
-#include "exit.c"
 
 void list_existing_user(user_t *a);
 void add_user(user_t **users, char *name, char *pass);

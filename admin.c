@@ -46,20 +46,20 @@ if (password==check){
             printf("\n\n=====================================================================\n");
             printf("                              Add Items\n");
             printf("=====================================================================\n\n");
-            // printf("         Enter the number of quires: ");
-            // scanf("%d", &query);
-            // while (query>0)
-            // {            
-            // printf("Enter Item Number, Item Name, Price and Quantity: ");
-            // scanf("%d %s %d %d", &num, name, &price, &quant);
-            // add_item(&item_database, num, name, price, quant);
-            // query--;
-            // }
+            printf("         Enter the number of quires: ");
+            scanf("%d", &query);
+            while (query>0)
+            {            
+            printf("Enter Item Number, Item Name, Price and Quantity: ");
+            scanf("%d %s %d %d", &num, name, &price, &quant);
+            add_item(&item_database, num, name, price, quant);
+            query--;
+            }
 
-            add_item(&item_database, 12, "lol", 24, 23);
-            add_item(&item_database, 11, "efw", 2445, 32);
-            add_item(&item_database, 1, "sr", 34, 7);
-            add_item(&item_database, 67, "pop", 56, 3);
+            // add_item(&item_database, 12, "lol", 24, 23);
+            // add_item(&item_database, 11, "efw", 2445, 32);
+            // add_item(&item_database, 1, "sr", 34, 7);
+            // add_item(&item_database, 67, "pop", 56, 3);
             goto admin_menu;
             break;
         
