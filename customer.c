@@ -91,7 +91,6 @@ void customer(struct user_details user){
                         free(temp);
                     }
                     quit();
-                    goto main_menu;
                     break;
 
                 case 2:
