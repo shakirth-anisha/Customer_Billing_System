@@ -8,7 +8,7 @@ void list_existing_items(item_t *a);
 void administrator(){
     FILE *f1 = fopen("Items.csv", "w");
     if (f1 != NULL){
-        fprintf(f1, "Account Number, Username, Password\n");
+        fprintf(f1, "Item Number, Item Name, Price, Quantity\n");
         fclose(f1);
     }
     else {
@@ -113,7 +113,7 @@ else{
 }
 
 void add_item(item_t **users, int prod_num, char *name, int price, int quant){
-    FILE *f1 = fopen("Users.csv", "a");
+    FILE *f1 = fopen("Items.csv", "a");
     if (f1 != NULL){
     item_t *new_node = (item_t*) malloc(sizeof(item_t));
     item_t *last = *users;
