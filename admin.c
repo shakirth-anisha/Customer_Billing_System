@@ -6,6 +6,15 @@ void add_item(item_t **users, int prod_num, char *name, int price, int quant);
 void list_existing_items(item_t *a);
 
 void administrator(){
+    FILE *f1 = fopen("Items.csv", "w");
+    if (f1 != NULL){
+        fprintf(f1, "Account Number, Username, Password\n");
+        fclose(f1);
+    }
+    else {
+        printf("\n\n----------------------ERROR IN OPENING FILE----------------------\n\n");
+    }
+
     int admin_option, trail=0, check, price, quant, query, num;
     char name[100];
     
@@ -16,7 +25,14 @@ void administrator(){
     printf("=====================================================================\n\n");
 
 if (password==check){
+
+    add_item(&item_database, 12, "Apple", 15, 50);
+    add_item(&item_database, 11, "KinderJoy", 45, 30);
+    add_item(&item_database, 1, "Samosa", 15, 20);
+    add_item(&item_database, 67, "Pen", 5, 60);
+    
     admin_menu:
+    admin_option = 0;
     printf("\n\n=====================================================================\n");
     printf("                       Administrator Settings\n");
     printf("=====================================================================\n");
@@ -47,6 +63,7 @@ if (password==check){
             printf("                              Add Items\n");
             printf("=====================================================================\n\n");
             printf("         Enter the number of quires: ");
+            query = 0;
             scanf("%d", &query);
             while (query>0)
             {            
@@ -55,11 +72,6 @@ if (password==check){
             add_item(&item_database, num, name, price, quant);
             query--;
             }
-
-            // add_item(&item_database, 12, "lol", 24, 23);
-            // add_item(&item_database, 11, "efw", 2445, 32);
-            // add_item(&item_database, 1, "sr", 34, 7);
-            // add_item(&item_database, 67, "pop", 56, 3);
             goto admin_menu;
             break;
         
@@ -96,11 +108,13 @@ else{
     if (trail<2) goto enter_password;
     else trail=0;
 }
-
+    fclose(f1);
     //Use Files to Add view and delete products
 }
 
 void add_item(item_t **users, int prod_num, char *name, int price, int quant){
+    FILE *f1 = fopen("Users.csv", "a");
+    if (f1 != NULL){
     item_t *new_node = (item_t*) malloc(sizeof(item_t));
     item_t *last = *users;
     new_node->item_no = prod_num; strcpy(new_node->item_name, name); new_node->price = price; new_node->quantity = quant;
@@ -114,6 +128,12 @@ void add_item(item_t **users, int prod_num, char *name, int price, int quant){
         new_node->next = *users;
         (*users) = new_node;
     }
+    fprintf(f1,"%d,%s,%d,%d\n",new_node->item_no, new_node->item_name, new_node->price, new_node->quantity);
+    fclose(f1);
+    }
+    else {
+            printf("\n\n----------------------ERROR IN OPENING FILE----------------------\n\n");
+        }
 }
 
 void list_existing_items(item_t *a){
