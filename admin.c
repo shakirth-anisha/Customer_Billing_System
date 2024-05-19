@@ -7,36 +7,7 @@ int new_add_count = 0;
 void add_item(item_t **users, int prod_num, char *name, int price, int quant, int check_csv1);
 void list_existing_items(item_t *a);
 int check_item_number(item_t *users, int to_find);
-
-// FILE *ffp;
-// 	ffp = fopen("Items.csv", "r");
-// 	if (ffp == NULL) {
-// 		printf("ERROR in opening file");
-// 	}
-// 	else {
-
-// 		char line[1024];
-// 		    while (fgets(line, 1024, ffp)) {
-// 			char *tmp = strdup(line);
-//             char new_itemname[100];
-//             int new_itemno, new_price, new_quantity;
-// 			if (new_add_count > 0) {
-// 					new_itemno = atoi(strtok(tmp, ",\n"));  
-// 			        strcpy(new_itemname, strtok(NULL, ","));  
-// 		    	    new_price = atoi(strtok(NULL, ","));
-// 		    	    new_quantity = atoi(strtok(NULL, ","));
-//                     add_item(&item_database, new_itemno, new_itemname, new_price, new_quantity, 1);
-//     		}
-
-//             #ifdef DEBUG_ADMIN
-//             printf("hi from add to items\n\nitemno: %d\nitem name: %s\nprice: %d\nquantity: %d\n\n", new_itemno, new_itemname, new_price, new_quantity);
-//             #endif
-
-//             new_add_count++;      
-//             free(tmp);
-//         }
-//         fclose(ffp);
-// 	}
+void delete_item(item_t** head, int prod_no);
 
 void administrator(){
     int admin_option, trail=0, check, price, quant, query, num;
@@ -95,9 +66,22 @@ if (password==check){
             break;
         
         case 3:
-            //Ask info on how many quires are required and product details. 
-            //Also set up a force quit on an accidental value
-            //Set up an Invalid Response    
+            printf("\n\n=====================================================================\n");
+            printf("                           Remove Items\n");
+            printf("=====================================================================\n\n");
+            printf("         Enter the number of quires: ");
+            query = 0;
+            scanf("%d", &query);
+            while (query>0)
+            {            
+            printf("Enter Item Number: ");
+            scanf("%d", &num);
+            delete_item(&item_database, num);
+            query--;
+            }
+            //A̶s̶k̶ i̶n̶f̶o̶ o̶n̶ h̶o̶w̶ m̶a̶n̶y̶ q̶u̶i̶r̶e̶s̶ a̶r̶e̶ r̶e̶q̶u̶i̶r̶e̶d̶ a̶n̶d̶ p̶r̶o̶d̶u̶c̶t̶ d̶e̶t̶a̶i̶l̶s̶.̶ 
+            //A̶l̶s̶o̶ s̶e̶t̶ u̶p̶ a̶ f̶o̶r̶c̶e̶ q̶u̶i̶t̶ o̶n̶ a̶n̶ a̶c̶c̶i̶d̶e̶n̶t̶a̶l̶ v̶a̶l̶u̶e̶
+            //S̶e̶t̶ u̶p̶ a̶n̶ I̶n̶v̶a̶l̶i̶d̶ R̶e̶s̶p̶o̶n̶s̶e̶    
             goto admin_menu;     
             break;
 
@@ -179,4 +163,49 @@ int check_item_number(item_t *users, int to_find) {
         users = users->next;
     }
     return 0;
+}
+
+void delete_item(item_t** head, int prod_no) {
+
+        if ((*head)->item_no == prod_no) {
+            item_t* del_node = (*head);
+            *head = (*head)->next;
+            free(del_node);
+        }
+
+    int i = 0;
+    FILE *fp, *fq;
+	fp = fopen("Items.csv", "r");
+	fq = fopen("Temp.csv", "w");
+    fprintf(fq,"Item Number,Item Name,Price,Quantity\n");
+	if (fp == NULL) {
+		printf("ERROR in opening file");
+	}
+	else {
+
+		char line[1000];
+        char new_itemname[100], new_username[100];
+        int new_itemno, new_price, new_quantity;
+		    while (fgets(line, 1000, fp))
+		    {
+			char *tmp = strdup(line);
+			if (i > 0) {
+				new_itemno = atoi(strtok(tmp, ",\n"));  
+			    strcpy(new_itemname, strtok(NULL, ","));  
+		    	new_price = atoi(strtok(NULL, ","));
+		    	new_quantity = atoi(strtok(NULL, ","));
+
+                // printf("hihihi\nnew:%d\nprod:%d\n", new_itemno, prod_no);
+			    if (new_itemno!=prod_no)
+			        {
+				    fprintf(fq, "%d,%s,%d,%d\n",new_itemno, new_itemname, new_price, new_quantity);
+			        }
+			}
+			i++;      
+			free(tmp);
+			}
+            fclose(fp); fclose(fq);
+		}
+    remove("Items.csv");
+    rename("Temp.csv", "Items.csv");
 }
