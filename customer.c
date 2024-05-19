@@ -101,7 +101,7 @@ void customer(struct user_details user){
                         cart_items = cart_items->next;
                         free(temp);
                     }
-                    printf("%s", user.username);
+                    // printf("%s", user.username);
                     delete_cart(&cart_items, -1, user.username, 1);
                     quit();
                     break;
