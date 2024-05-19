@@ -8,16 +8,16 @@
 --> Deal with Change username and Change Password in Customer.c
 -̶-̶>̶ C̶t̶r̶l̶+̶C̶ C̶t̶r̶l̶+̶V̶ s̶i̶m̶i̶l̶a̶r̶ c̶o̶d̶e̶ o̶f̶ i̶t̶e̶m̶s̶ and cart
 --> F̶i̶n̶d̶ t̶h̶e̶ t̶o̶t̶a̶l̶ o̶f̶f̶ t̶h̶e̶ b̶i̶l̶l̶ a̶c̶c̶o̶r̶d̶i̶n̶g̶ t̶o̶ p̶r̶i̶c̶e̶
---> Implement file handling.
---> MAKE CART STRUCTURE MAIN INDEX USERNAME/ACC NO ADD DETAILS (MAKE ADD ITEMS FUNC OR EDIT)
+--> I̶m̶p̶l̶e̶m̶e̶n̶t̶ f̶i̶l̶e̶ h̶a̶n̶d̶l̶i̶n̶g̶.̶
+--> M̶A̶K̶E̶ C̶A̶R̶T̶ S̶T̶R̶U̶C̶T̶U̶R̶E̶ M̶A̶I̶N̶ I̶N̶D̶E̶X̶ U̶S̶E̶R̶N̶A̶M̶E̶/̶A̶C̶C̶ N̶O̶ A̶D̶D̶ D̶E̶T̶A̶I̶L̶S̶ (̶M̶A̶K̶E̶ A̶D̶D̶ I̶T̶E̶M̶S̶ F̶U̶N̶C̶ O̶R̶ E̶D̶I̶T̶)̶
 */
 
-// #define DEBUG_MAIN 1
+#define DEBUG_MAIN 1
 
 struct item_details
 {
     int item_no;
-    char item_name[50];
+    char item_name[100];
     int price;
     int quantity;
     struct item_details *next;
@@ -26,8 +26,8 @@ struct item_details
 struct user_details
 {
     int acc_no;
-    char username[50];
-    char password[50];
+    char username[100];
+    char password[100];
     struct user_details *next;
 } *user_database;
 
@@ -47,6 +47,7 @@ struct user_details * find_user(user_t *users, char *to_find);
 void add_csv_to_struct();
 
 int main(){
+
     static char username[100], c_password[100], check_username[100], check_password[100], new_username[100], new_password[100];
     int main_option, log_in_option, pass_check=0;
     user_t current_user, *sample;
@@ -76,10 +77,6 @@ int main(){
         printf("=====================================================================\n\n");
         printf("                Enter your new username: ");
         scanf("%s", new_username);
-
-        #ifdef DEBUG_MAIN
-        if (!strcmp(new_username, "ani")) break;
-        #endif
 
         if(find_user(user_database, new_username)->acc_no==-1){
         printf("                Enter your new password: ");
@@ -117,13 +114,13 @@ int main(){
             if(pass_check<=3){
                 printf("                    Enter your password: ");
                 scanf("%s", check_password);
-                printf("\n");
-                printf("=====================================================================\n\n\n");
-                if (!strcmp(sample->password, check_password)) {
+                // (sample->password)[strlen(sample->password)-1] = '\0';
+                printf("\n=====================================================================\n\n\n");
+                if (strcmp(sample->password, check_password)!=0) {
                     invalid();
+                    pass_check++;
                     goto password_count_check;
                 }
-                pass_check++;
             }
             else {
                 invalid();
@@ -261,6 +258,7 @@ void add_csv_to_struct(){
 					strtok(tmp, ",\n");  
 			        strcpy(new_username, strtok(NULL, ","));  
 		    	    strcpy(new_password, strtok(NULL, ","));
+                    new_password[strlen(new_password)-1] = '\0';
                     add_user(&user_database, new_username, new_password, 1);
     		}
 
