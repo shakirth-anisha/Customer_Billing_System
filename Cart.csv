@@ -1,1 +1,5 @@
-Username,Product Number,Product Name,Price,Quantity
+Username,Item Number,Item Name,Price,Quantity
+anisha,1,Samosa,15,5
+ani,1,Samosa,15,3
+ani,3,Popcorn,30,4
+ani,5,Juice,25,1
