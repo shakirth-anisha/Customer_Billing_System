@@ -53,6 +53,7 @@ void customer(struct user_details user){
 
         // if(profile_options!=3) goto your_profile;
         // else goto customer_menu;
+        goto customer_menu;
 
         break;
     
@@ -133,26 +134,28 @@ void customer(struct user_details user){
         break;
     
     case 4:
-        printf("                  Enter the number of quires: ");
+        list_existing_items(item_database);
+        printf("                  Enter the number of queries: ");
             scanf("%d", &query_c);
             while (query_c>0)
             {            
-            printf("          Enter Item Number and Quantity: ");
+            printf("\n          Enter Item Number and Quantity: ");
             scanf("%d %d", &item_no, &item_quan);
             find_add_item(item_database, user.username, item_no, item_quan);
             query_c--;
             }
         goto customer_menu;
-        //Ask info on how many quires are required and product details. 
+        //Ask info on how many queries are required and product details. 
         //Also set up a force quit on an accidental value
         //Set up an Invalid Response         
         break;
 
     case 5:
+        list_existing_items(cart_items);
         printf("\n\n=====================================================================\n");
         printf("                           Remove Items\n");
         printf("=====================================================================\n\n");
-        printf("         Enter the number of quires: ");
+        printf("\n         Enter the number of queries: ");
         query = 0;
         scanf("%d", &query);
         while (query>0) {            
