@@ -52,7 +52,7 @@ if (password==check){
             printf("\n\n=====================================================================\n");
             printf("                              Add Items\n");
             printf("=====================================================================\n\n");
-            printf("         Enter the number of quires: ");
+            printf("         Enter the number of queries: ");
             query = 0;
             scanf("%d", &query);
             while (query>0)
@@ -69,7 +69,7 @@ if (password==check){
             printf("\n\n=====================================================================\n");
             printf("                           Remove Items\n");
             printf("=====================================================================\n\n");
-            printf("         Enter the number of quires: ");
+            printf("         Enter the number of queries: ");
             query = 0;
             scanf("%d", &query);
             while (query>0)
